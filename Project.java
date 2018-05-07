@@ -57,6 +57,7 @@ public class Project
         HashMap<Integer,Integer> map = new HashMap();
         Fileman br = new Fileman(path);
         String st;
+        SearchImp s = new SearchImp();
 
         while ((st = br.readline()) != null)
         {
@@ -76,16 +77,15 @@ public class Project
             adj[map.get((int) rightNode)][map.get((int) leftNode)] = 1;
         }
         
-        for (int i = 0; i < map.size(); i++)
+        int sum = 0;
+        for(int i=0; i<map.size(); i++)
         {
-            for (int j = 0; j < map.size(); j++)
+            for(int j : s.getDist(adj, i))
             {
-                System.out.print(adj[i][j]);
-                
+                sum += j;
             }
-            System.out.println();
         }
-        return 0;
+        return 1/sum;
     }
 }
 
