@@ -52,7 +52,7 @@ public class Project
         return maxUser; 
     }
 
-    public int closenessCentrality(String path)
+    public int [] closenessCentrality(String path)
     {
         HashMap<Integer,Integer> map = new HashMap();
         Fileman br = new Fileman(path);
@@ -76,16 +76,43 @@ public class Project
             adj[map.get((int) leftNode)][map.get((int) rightNode)] = 1;
             adj[map.get((int) rightNode)][map.get((int) leftNode)] = 1;
         }
-        
+        /*
         int sum = 0;
         for(int i=0; i<map.size(); i++)
         {
-            for(int j : s.getDist(adj, i))
-            {
-                sum += j;
-            }
+        for(int j : s.getDist(adj, i))
+        {
+        sum += j;
+        }
         }
         return 1/sum;
+         */
+
+        // returns the array of sums of the shortest path over each node
+        int [] sum = new int[map.size()];
+        for(int i=0; i<map.size(); i++)
+        {
+            int [] bfs = s.getDist(adj, i);
+            for(int j =0; j<map.size(); j++)
+            {
+                sum[j] += bfs[j];
+            }
+        }
+
+        // changes the far to close
+        for(int i=0; i<map.size(); i++)
+        {
+            sum[i] = 1/sum[i];
+        }
+
+        return sum;
+
+    }
+
+    public int [] betweennessCentrality()
+    {
+
+        return null;
     }
 }
 

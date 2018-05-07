@@ -31,6 +31,48 @@ public class SearchImp implements Search
      * the start vertex of each, or -1 is the vertex is not reachable 
      * from the start vertex.
      */
+    public int[] getAllShortDist(int[][] em, int startVertex)
+    {
+
+        colour = new int[em.length];
+        QueueLinked q = new QueueLinked();
+        colour[startVertex] = GREY;
+        parent = new int[em.length];
+
+        int[] distance = new int[em.length];
+        for(int i=0; i<distance.length; i++) { distance[i] = -1;}
+        distance[startVertex] = 0;
+        q.enqueue(startVertex);
+        int [] count = new int[em.length];
+
+        while(!q.isEmpty())
+        {
+            int w = (int) q.dequeue();
+            for(int x=0; x<em[w].length; x++)
+            {
+                if(w!=x && colour[x]==WHITE && em[w][x]==1)
+                {
+                    distance[x] = distance[w] + 1;
+                    parent[x] = w;
+                    q.enqueue(x);
+                }
+            }
+            colour[w] = BLACK;
+        }
+
+        return distance;
+    }
+    
+    /**
+     * Runs a BFS on a given directed, unweighted graph to 
+     * find the distances of vertices from the start vertex.
+     *
+     * @param em - the matrix to be searched
+     * @param startVertex - the vertex on which to start the search
+     * @return an array listing the distance of each vertex from 
+     * the start vertex of each, or -1 is the vertex is not reachable 
+     * from the start vertex.
+     */
     public int[] getDist(int[][] em, int startVertex)
     {
 
