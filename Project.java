@@ -100,23 +100,23 @@ public class Project
     }
 
     
-    public int [] betweennessCentrality()
+    public double [] betweennessCentrality()
     {
         Stack S;
         QueueLinked Q;
-        ArrayList<Integer>[] P = 
-            new ArrayList[nodeIndex.size()]; //each vertex has a list of their parents
+        LinkedList<Integer>[] P = 
+            new LinkedList[nodeIndex.size()]; //each vertex has a list of their parents
         int[] d; //distance
         int[] sig; //shortest path
         
         if(nodeIndex.size() < 1) return null; 
-        int[] bc = new int[nodeIndex.size()]; // Betweenness centrality
+        double[] bc = new double[nodeIndex.size()]; // Betweenness centrality
         for(int s=0; s<nodeIndex.size(); s++)
         {
             S = new Stack();
             for(int w=0; w<nodeIndex.size(); w++)
             {
-                P[w] = new ArrayList<Integer>();
+                P[w] = new LinkedList<Integer>();
             }
             sig = new int[nodeIndex.size()];
             sig[s] = 1;
@@ -139,21 +139,38 @@ public class Project
                     {
                         continue;
                     }
-                    
-                    
+                    // w found for the first time?
+                    if(d[w] < 0)
+                    {
+                        Q.enqueue(w);
+                        d[w] = d[v] + 1;
+                    }
+                    // shortest path to w via v?
+                    if(d[w] == d[v] +1)
+                    {
+                        sig[w] = sig[w] + sig[v];
+                        P[w].add(v);
+                    }
                 }
             }
             
-            
-            
-
-            
-            
-            
-            
-            
+            double [] del = new double[nodeIndex.size()];
+            // S returns vertices in order of non-increasing distance from s
+            while(S.empty() == false)
+            {
+                int w = (int) S.pop();
+                for(Object i : P[w].toArray())
+                {
+                    int v = (int) i;
+                    del[v] = del[v] + (double) sig[v]/sig[w]*(1 + del[w]);
+                }
+                if(w != s)
+                {
+                    bc[w] = bc[w] + del[w];
+                }
+            }
         }
-        return null;
+        return bc;
     }
 }
 
