@@ -44,16 +44,16 @@ public class ProjectTest
     @Test
     public void test1()
     {
-        Project project1 = new Project();
-        project1.degreeCentrality("short1.txt");
+        Project project1 = new Project("short1.txt");
+        project1.degreeCentrality();
         
     }
     
     @Test
     public void test2()
     {
-        Project project1 = new Project();
-        project1.closenessCentrality("test.txt");
+        Project project1 = new Project("test.txt");
+        project1.closenessCentrality();
         
     }
 }

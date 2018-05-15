@@ -1,9 +1,7 @@
 import java.io.*;
 import java.net.*;
 import java.nio.file.*;
-import java.util.HashMap;
-import java.util.Iterator;
-import CITS2200.*;
+import java.util.*;
 
 /**
  * Write a description of class Project here.
@@ -13,105 +11,148 @@ import CITS2200.*;
  */
 public class Project
 {
-    // instance variables - replace the example below with your own
-
+    private HashMap<Integer, Integer> nodeIndex;
+    private int [] nodeEdgeNum;
+    private int [][] adj;
+    
     /**
      * Constructor for objects of class Project
      */
-    public Project()
+    public Project(String path)
     {
-        // initialise instance variables
-    }
-
-    public int degreeCentrality(String path)
-    {
-        HashMap<Integer,Integer> map = new HashMap();
+        nodeIndex = new HashMap();
         Fileman br = new Fileman(path);
         String st;
-        int max = -1;
-        int maxUser = 0;
-
+        
+        //read through file and parse nodes for variable arrays
         while ((st = br.readline()) != null)
         {
             int leftNode = Integer.parseInt(st.split(" ")[0]);
             int rightNode = Integer.parseInt(st.split(" ")[1]);
-            map.put(leftNode,(int) map.getOrDefault(leftNode, 0) + 1);
-            map.put(rightNode,(int) map.getOrDefault(rightNode, 0) + 1);
+            
+            //indexing nodes
+            nodeIndex.put(leftNode,nodeIndex.getOrDefault(leftNode, nodeIndex.size()));
+            nodeIndex.put(rightNode,nodeIndex.getOrDefault(rightNode, nodeIndex.size()));
+        }
+        
+        nodeEdgeNum = new int[nodeIndex.size()];
+        adj = new int[nodeIndex.size()][nodeIndex.size()];
+        br = new Fileman(path);
+        
+        //read through file and parse nodes for static arrays
+        while ((st = br.readline()) != null)
+        {
+            int leftNode = Integer.parseInt(st.split(" ")[0]);
+            int rightNode = Integer.parseInt(st.split(" ")[1]);
+            
+            //counting number of edges per node
+            nodeEdgeNum[nodeIndex.get(leftNode)]++;
+            nodeEdgeNum[nodeIndex.get(rightNode)]++;
 
-            Iterator it = map.keySet().iterator();
-            while(it.hasNext())
+            //building adjacency matrix
+            adj[nodeIndex.get(leftNode)][nodeIndex.get(rightNode)] = 1;
+            adj[nodeIndex.get(rightNode)][nodeIndex.get(leftNode)] = 1;
+        }
+    }
+
+    public int degreeCentrality()
+    {
+        int max = -1;
+        int maxUser = -1;
+        
+        for(int i=0; i<nodeEdgeNum.length; i++)
+        {
+            if(max < nodeEdgeNum[i]) 
             {
-                int user = (int) it.next();
-                if(max < (int) map.get(user)) 
-                {
-                    maxUser = user;
-                    max = (int) map.get(user);
-                }
+                maxUser = nodeIndex.get(i);
+                max = nodeEdgeNum[i];
             }
         }
         return maxUser; 
     }
 
-    public int [] closenessCentrality(String path)
+    // returns the array of sums of the shortest path over each node using breath first search.
+    public double [] closenessCentrality()
     {
-        HashMap<Integer,Integer> map = new HashMap();
-        Fileman br = new Fileman(path);
-        String st;
-        SearchImp s = new SearchImp();
-
-        while ((st = br.readline()) != null)
+        SearchImp search = new SearchImp();
+        int [] sum = new int[nodeIndex.size()];
+        
+        // find the shortest paths per node to every other node
+        for(int i=0; i<nodeIndex.size()-1; i++)
         {
-            int leftNode = Integer.parseInt(st.split(" ")[0]);
-            int rightNode = Integer.parseInt(st.split(" ")[1]);
-            map.put(leftNode,(int) map.getOrDefault(leftNode, map.size()));
-            map.put(rightNode,(int) map.getOrDefault(rightNode, map.size()));
-        }
-        int [][] adj = new int[map.size()][map.size()];
-
-        br = new Fileman(path);        
-        while ((st = br.readline()) != null)
-        {
-            int leftNode = Integer.parseInt(st.split(" ")[0]);
-            int rightNode = Integer.parseInt(st.split(" ")[1]);
-            adj[map.get((int) leftNode)][map.get((int) rightNode)] = 1;
-            adj[map.get((int) rightNode)][map.get((int) leftNode)] = 1;
-        }
-        /*
-        int sum = 0;
-        for(int i=0; i<map.size(); i++)
-        {
-        for(int j : s.getDist(adj, i))
-        {
-        sum += j;
-        }
-        }
-        return 1/sum;
-         */
-
-        // returns the array of sums of the shortest path over each node
-        int [] sum = new int[map.size()];
-        for(int i=0; i<map.size(); i++)
-        {
-            int [] bfs = s.getDist(adj, i);
-            for(int j =0; j<map.size(); j++)
+            int [] bfs = search.getDist(adj, i);
+            
+            // sum the paths for each search
+            for(int j=i; j<nodeIndex.size(); j++)
             {
                 sum[j] += bfs[j];
             }
         }
 
         // changes the far to close
-        for(int i=0; i<map.size(); i++)
+        double [] close = new double[nodeIndex.size()];
+        for(int i=0; i<sum.length; i++)
         {
-            sum[i] = 1/sum[i];
+            close[i] = 1.0 / sum[i];
         }
 
-        return sum;
-
+        return close;
     }
 
+    
     public int [] betweennessCentrality()
     {
+        Stack S;
+        QueueLinked Q;
+        ArrayList<Integer>[] P = 
+            new ArrayList[nodeIndex.size()]; //each vertex has a list of their parents
+        int[] d; //distance
+        int[] sig; //shortest path
+        
+        if(nodeIndex.size() < 1) return null; 
+        int[] bc = new int[nodeIndex.size()]; // Betweenness centrality
+        for(int s=0; s<nodeIndex.size(); s++)
+        {
+            S = new Stack();
+            for(int w=0; w<nodeIndex.size(); w++)
+            {
+                P[w] = new ArrayList<Integer>();
+            }
+            sig = new int[nodeIndex.size()];
+            sig[s] = 1;
+            d = new int[nodeIndex.size()];
+            for(int i=0; i<d.length; i++)
+            {
+                d[i] = -1;
+            }
+            d[s] = 0;
+            Q = new QueueLinked();
+            Q.enqueue(s);
+            while(Q.isEmpty() == false)
+            {
+                int v = (int) Q.dequeue();
+                S.push(v);
+                for(int w=0; w<nodeIndex.size(); w++)
+                {
+                    // if w is not a neighbor of v, continue.
+                    if(w==v || adj[w][v]==0)
+                    {
+                        continue;
+                    }
+                    
+                    
+                }
+            }
+            
+            
+            
 
+            
+            
+            
+            
+            
+        }
         return null;
     }
 }
