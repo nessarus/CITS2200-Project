@@ -1,6 +1,6 @@
 # Programming Project 2018
 
-## CITS 2200 - Data Structures and Algorithms
+## CITS2200 - Data Structures and Algorithms
 
 
 
