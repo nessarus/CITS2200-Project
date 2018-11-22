@@ -1,14 +1,24 @@
-# Programming Project 2018
+# Programming Project 2018: Exploring centrality of vertices in a graph
+This is a student project from the course CITS2200: Data Structures and Algorithms at the University of Western Australia. 
 
-## CITS2200 - Data Structures and Algorithms
+### Build Instructions:
+Compile with a java compiler. Add the CITS2200.jar as a classpath.  
+In the terminal: 
+>prompt\>\> javac -cp $CLASSPATH:./CITS2200.jar:. *.java
 
+### Instructions to run the program:
+Here's an example of how to run the program.  
+In the terminal: 
+>prompt\>\> java -cp $CLASSPATH:./CITS2200.jar:. Project 0.5 < dataset1.edges
 
+The program reads in data from stdin so you can replace dataset1.edges with your file of choice.
+To set the alpha value change the 0.5 to your choice. 
 
-
+## Problem Outline
 
 ### 1	Description
 
-The aim of this project is to explore centrality of vertices in a graph. Centrality is an important measure of the global in uence of a vertex in a graph. This measure is used extensively in analysing large social network graphs for information di usion and marketing. There are many di erent measures of centrality and we will explore four of those in this project.
+The aim of this project is to explore centrality of vertices in a graph. Centrality is an important measure of the global in influence of a vertex in a graph. This measure is used extensively in analysing large social network graphs for information di usion and marketing. There are many di erent measures of centrality and we will explore four of those in this project.
 
 **Degree centrality:** Degree centrality is the highest number of edges incident on a node. In other words, a node ni has the highest degree centrality if it has the highest number of edges incident on it. It should be clear that it is easy to compute the degree centrality of a graph in O(E) time for a graph G = (V, E).
 
@@ -25,7 +35,7 @@ foreach(ij){	bet(v) += sij(v)/sij }
 
 We are basically summing up the betweenness centrality of vertex v for all other vertex pairs (i, j). Note that the computation of bet(v) will require you to compute all possible shortest paths between every pair of vertices (i, j), not just one shortest path between (i, j).
 
-**Katz Centrality:** Katz centrality is used for degree of in uence of a node (or a person in Facebook or Twitter). The idea is to extend the notion of degree centrality to nodes that are more than one hop away. Central to Katz centrality is an attenuation factor alpha, where, 0 < alpha < 1. Consider a vertex i. For every edge that is incident on i, we add a weight alpha. So if there are k edges incident on i, then we have to add a weight k\*alpha . Let us call the neighbors of i as neighbor(i). Next we consider all the edges that are incident on the vertices in neighbor(i) and add a factor of alpha^2 for each such edge. In general, for an edge t hop away from node i, we add a factor of alpha^t. We continue in this way until we have finished all the vertices and add these weights to get Katz(i), the Katz centrality for vertex i. Usually Katz centrality is written mathematically using the powers of the adjacency matrix A of the graph. For every vertex i that's a member of G, A, the adjacency matrix gives the neighbor information, A^2, that is A multiplied by A gives the information of nodes that are two hops away, A^3 gives the information of the nodes that are 3 hops away and so on. So, we can write:
+**Katz Centrality:** Katz centrality is used for degree of in influence of a node (or a person in Facebook or Twitter). The idea is to extend the notion of degree centrality to nodes that are more than one hop away. Central to Katz centrality is an attenuation factor alpha, where, 0 < alpha < 1. Consider a vertex i. For every edge that is incident on i, we add a weight alpha. So if there are k edges incident on i, then we have to add a weight k\*alpha . Let us call the neighbors of i as neighbor(i). Next we consider all the edges that are incident on the vertices in neighbor(i) and add a factor of alpha^2 for each such edge. In general, for an edge t hop away from node i, we add a factor of alpha^t. We continue in this way until we have finished all the vertices and add these weights to get Katz(i), the Katz centrality for vertex i. Usually Katz centrality is written mathematically using the powers of the adjacency matrix A of the graph. For every vertex i that's a member of G, A, the adjacency matrix gives the neighbor information, A^2, that is A multiplied by A gives the information of nodes that are two hops away, A^3 gives the information of the nodes that are 3 hops away and so on. So, we can write:
 
 
 Katz(i) = SUM(k=1:inf){ SUM(j=1:N){( alpha^k \* A^k )} }
@@ -37,9 +47,9 @@ Note that the first summation is from 1 to infinity just for convenience, as we 
 
 * The project carries 20% of the total marks for this unit.
 
-* Your task is to implement these four centrality measures. Note that it is very easy to implement these algorithms using shortest path algorithms that we will discuss in the lectures shortly. So, a basic correct implementation will fetch you only about 70% of the marks, the remaining 30% of the marks will be awarded on e ciency of your algorithm and the data structures you have used. There is good scope of using some of the data structures tht we have studied in the lectures.
+* Your task is to implement these four centrality measures. Note that it is very easy to implement these algorithms using shortest path algorithms that we will discuss in the lectures shortly. So, a basic correct implementation will fetch you only about 70% of the marks, the remaining 30% of the marks will be awarded on efficiency of your algorithm and the data structures you have used. There is good scope of using some of the data structures tht we have studied in the lectures.
 
-* We will discuss the basic implementation in terms of the shortest path algo-rithms like Dijkstra's shortest path algorithm, but any sophistication in your implementation is purely your responsibility.
+* We will discuss the basic implementation in terms of the shortest path algorithms like Dijkstra's shortest path algorithm, but any sophistication in your implementation is purely your responsibility.
  
 
 * The project can be done in a group of 2.

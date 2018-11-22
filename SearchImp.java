@@ -4,8 +4,8 @@ import CITS2200.*;
  * SearchImp proves the implementation using methods based on a 
  * Breadth First Search and Depth First Search over a directed Graph.
  *
- * @author Joshua Ng
- * @version 23/04/2018
+ * Joshua Ng 20163079, Khang Siang Tay 21884623
+ * 30/5/18
  */
 public class SearchImp implements Search
 {
@@ -108,7 +108,7 @@ public class SearchImp implements Search
     /**
      * Runs a BFS on a given directed, unweighted graph.
      *
-     * @param g - the Graph to be searched
+     * @param g - the Graph to be Searched
      * @param start - the vertex on which to start the search
      * @return an array listing the parent of each vertex in 
      *  the spanning tree, or -1 is the vertex is not reachable 

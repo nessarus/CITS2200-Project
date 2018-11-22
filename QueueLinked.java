@@ -3,8 +3,8 @@ import CITS2200.*;
 /**
  * A Cyclic Linked Implementation of a Queue.
  *
- * @author Joshua Ng
- * @version 22.03.2018
+ * Joshua Ng 20163079, Khang Siang Tay 21884623
+ * 30/5/18
  */
 public class QueueLinked implements Queue
 {
