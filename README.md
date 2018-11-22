@@ -1,4 +1,4 @@
-# Programming Project 2018: Exploring centrality of vertices in a graph
+## Programming Project 2018: Exploring centrality of vertices in a graph
 This is a student project from the course CITS2200: Data Structures and Algorithms at the University of Western Australia. 
 
 ### Build Instructions:
