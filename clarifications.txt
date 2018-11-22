@@ -1,0 +1,48 @@
+Dear all,
+These are the results for the two datasets that I have given for the project:
+
+
+428333.edges
+---------------------
+Component #1 
+	Degree centers: 
+		759251 
+	Closeness centers: 
+		759251 
+	Betweenness centers: 
+		759251 
+	Katz centers (a=0.5): 
+		759251
+78813.edges
+--------------------
+Component #1 
+	Degree centers: 
+		50393960 
+	Closeness centers: 
+		50393960 
+	Betweenness centers: 
+		50393960 
+	Katz centers (a=0.5): 
+		11336782 
+
+Component #2 
+	Degree centers: 
+		18454912 
+		182013328 
+	Closeness centers: 
+		18454912 
+		182013328 
+	Betweenness centers: 
+		18454912 
+		182013328 
+	Katz centers (a=0.5): 
+		18454912 
+		182013328
+
+
+Dear All,
+I would first like to make it very clear that the purpose of this email is to provide some help. I am neither changing the project specification, nor I am suggesting that you change your implementation, if you have already implemented Katz centrality. The project specification remains the same.
+The precise mathematical definition of Katz centrality requires the centrality measure to converge precisely to some value. Since convergence is not guaranteed for all values of alpha, I suggested a simplification where you can compute Katz centrality of each node based on a breadth-first search tree from that node, by iterating V times (where V is the number of nodes in the graph). There is no guarantee that the Katz centrality calculated this way will match exactly with the results I sent you earlier, as those are computed using the mathematically precise definition.
+The most important point is to explain your implementation clearly in your report. As I have mentioned above, there is no need to change your implementation due to this mail. The sole purpose of this mail is to make some helpful suggestions. 
+best,
+Amitava
