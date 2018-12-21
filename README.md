@@ -14,6 +14,54 @@ In the terminal:
 The program reads in data from stdin so you can replace dataset1.edges with your file of choice.
 To set the alpha value change the 0.5 to your choice. 
 
+### Sample input (see 42833.edges, 78813.edges)
+```
+759251 22958682
+15224867 2097571
+16184358 110458336
+...
+```
+
+### Sample Output
+```
+428333.edges
+---------------------
+Component #1 
+	Degree centers: 
+		759251 
+	Closeness centers: 
+		759251 
+	Betweenness centers: 
+		759251 
+	Katz centers (a=0.5): 
+		759251
+78813.edges
+--------------------
+Component #1 
+	Degree centers: 
+		50393960 
+	Closeness centers: 
+		50393960 
+	Betweenness centers: 
+		50393960 
+	Katz centers (a=0.5): 
+		11336782 
+
+Component #2 
+	Degree centers: 
+		18454912 
+		182013328 
+	Closeness centers: 
+		18454912 
+		182013328 
+	Betweenness centers: 
+		18454912 
+		182013328 
+	Katz centers (a=0.5): 
+		18454912 
+		182013328
+```
+
 ## Problem Outline
 
 ### 1	Description
