@@ -35,6 +35,7 @@ Component #1
 		759251 
 	Katz centers (a=0.5): 
 		759251
+		
 78813.edges
 --------------------
 Component #1 
